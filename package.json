@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm start --prefix react-characters",
+    "start": "npm start --prefix packages/react-frontend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
