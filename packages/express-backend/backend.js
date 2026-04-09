@@ -38,7 +38,7 @@ const users = {
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
-const findUsers = (name, job) => {
+const filterUsersByNameAndJob = (name, job) => {
   return users["users_list"].filter((user) => {
     const matchesName = name ? user["name"] === name : true;
     const matchesJob = job ? user["job"] === job : true;
@@ -99,7 +99,7 @@ app.post("/users", (req, res) => {
 app.get("/users", (req, res) => {
   const { name, job } = req.query;
   if (name || job) {
-    const result = findUsers(name, job);
+    const result = filterUsersByNameAndJob(name, job);
     res.send({ users_list: result });
   } else {
     res.send(users);
