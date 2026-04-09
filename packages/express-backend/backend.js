@@ -38,10 +38,12 @@ const users = {
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
-const findUserByName = (name) => {
-  return users["users_list"].filter(
-    (user) => user["name"] === name
-  );
+const findUsers = (name, job) => {
+  return users["users_list"].filter((user) => {
+    const matchesName = name ? user["name"] === name : true;
+    const matchesJob = job ? user["job"] === job : true;
+    return matchesName && matchesJob;
+  });
 };
 
 const deleteUserById = (id) => {
@@ -95,11 +97,10 @@ app.post("/users", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  const name = req.query.name;
-  if (name != undefined) {
-    let result = findUserByName(name);
-    result = { users_list: result };
-    res.send(result);
+  const { name, job } = req.query;
+  if (name || job) {
+    const result = findUsers(name, job);
+    res.send({ users_list: result });
   } else {
     res.send(users);
   }
