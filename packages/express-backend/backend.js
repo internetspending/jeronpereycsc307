@@ -44,6 +44,20 @@ const findUserByName = (name) => {
   );
 };
 
+const deleteUserById = (id) => {
+  const index = users["users_list"].findIndex(
+    (user) => user["id"] === id
+  );
+
+  if (index === -1) {
+    return undefined;
+  }
+
+  const deletedUser = users["users_list"][index];
+  users["users_list"].splice(index, 1);
+  return deletedUser;
+};
+
 const addUser = (user) => {
   users["users_list"].push(user);
   return user;
@@ -51,6 +65,17 @@ const addUser = (user) => {
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.delete("/users/:id", (req, res) => {
+  const id = req.params.id;
+  const deletedUser = deleteUserById(id);
+
+  if (deletedUser === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send(deletedUser);
+  }
 });
 
 app.get("/users/:id", (req, res) => {
