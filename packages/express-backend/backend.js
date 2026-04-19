@@ -78,7 +78,7 @@ app.delete("/users/:id", (req, res) => {
   if (deletedUser === undefined) {
     res.status(404).send("Resource not found.");
   } else {
-    res.send(deletedUser);
+    res.status(204).send();
   }
 });
 
@@ -94,8 +94,9 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.status(201).send();
+  userToAdd.id = Math.floor(Math.random() * 1000000).toString();
+  const newUser = addUser(userToAdd);
+  res.status(201).send(newUser);
 });
 
 app.get("/users", (req, res) => {
